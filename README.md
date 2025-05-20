@@ -9,3 +9,15 @@
 ![alt text](image-3.png)
 
 Ketika seorang klien mengirim pesan, server akan menjadi pihak pertama yang menerima pesan tersebut. Setelah itu, server akan mendistribusikan pesan tersebut ke semua klien yang sedang terhubung, termasuk si pengirim. Hal ini dimungkinkan karena server menyimpan daftar seluruh koneksi aktif dan terus memantau aktivitas mereka, sehingga saat ada pesan masuk, server dapat langsung menyebarkannya ke semua klien.
+
+## 2.2: Modifying port
+
+### Server
+![alt text](image-4.png)
+
+### Clients
+![alt text](image-5.png)
+![alt text](image-6.png)
+![alt text](image-7.png)
+
+Pada kasus tersebut tampak bahwa klien dan server menggunakan port yang berbeda. Server menunggu koneksi pada port 8080, sedangkan klien mencoba menghubungi websocket di port 2000. Karena tidak ada layanan websocket yang berjalan di port 2000, klien gagal terhubung dan muncul error ConnectionRefused. Ini menunjukkan bahwa klien telah mencoba membuat koneksi beberapa kali, namun selalu gagal. Untuk memperbaikinya dan memastikan aplikasi berjalan normal seperti sebelumnya, kode di client.rs perlu disesuaikan agar menggunakan port yang sama dengan server, yaitu mengganti ClientBuilder::from_uri(Uri::from_static("ws://127.0.0.1:2000")) menjadi menggunakan port 8080. Keduanya memang menggunakan protokol WebSocket, yang ditandai dengan prefix ws://. Ini menunjukkan bahwa klien mencoba membuka koneksi melalui WebSocket, bukan melalui koneksi TCP atau HTTP biasa.
